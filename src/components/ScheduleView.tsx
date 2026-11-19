@@ -1,4 +1,5 @@
 import type { Course, Weekday } from "../types";
+import { formatSchedule } from "../utils/schedule";
 
 interface ScheduleViewProps {
   courses: Course[];
@@ -23,7 +24,7 @@ function ScheduleView({ courses }: ScheduleViewProps) {
   const sortedCourses = [...courses].sort(
     (first, second) =>
       WEEKDAY_ORDER[first.day] - WEEKDAY_ORDER[second.day] ||
-      first.schedule.localeCompare(second.schedule),
+      first.startMinute - second.startMinute,
   );
   const groupedCourses: { day: Weekday; courses: Course[] }[] = [];
 
@@ -58,7 +59,9 @@ function ScheduleView({ courses }: ScheduleViewProps) {
                     {day}
                   </th>
                 )}
-                <td className="schedule-table__time">{course.schedule}</td>
+                <td className="schedule-table__time">
+                  {formatSchedule(course)}
+                </td>
                 <td>
                   <strong>{course.title}</strong>
                   <span className="schedule-table__level">

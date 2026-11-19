@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
 import type { Course } from "../types";
+import { formatSchedule } from "../utils/schedule";
 
 interface BookingModalProps {
   course: Course | null;
@@ -101,7 +102,7 @@ function BookingModal({ course, onClose, onConfirm }: BookingModalProps) {
             </button>
             <h2 id="booking-title">Prenota il tuo posto</h2>
             <p>
-              {course.title} · {course.day}, {course.schedule}
+              {course.title} · {course.day}, {formatSchedule(course)}
             </p>
           </div>
 

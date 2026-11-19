@@ -17,7 +17,8 @@ export interface Course {
   level: CourseLevel;
   instructor: string;
   day: Weekday;
-  schedule: string;
+  startMinute: number;
+  endMinute: number;
   room: string;
   capacity: number;
   enrolledCount: number;

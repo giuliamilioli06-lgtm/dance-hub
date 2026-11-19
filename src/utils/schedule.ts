@@ -1,30 +1,32 @@
 import type { Course } from "../types";
 
-interface TimeInterval {
-  start: number;
-  end: number;
+function isValidTimeRange(course: Course): boolean {
+  return (
+    Number.isInteger(course.startMinute) &&
+    Number.isInteger(course.endMinute) &&
+    course.startMinute >= 0 &&
+    course.startMinute < 24 * 60 &&
+    course.endMinute > course.startMinute &&
+    course.endMinute <= 24 * 60
+  );
+}
+
+function formatMinute(minute: number): string {
+  const hours = Math.floor(minute / 60)
+    .toString()
+    .padStart(2, "0");
+  const minutes = (minute % 60).toString().padStart(2, "0");
+  return `${hours}:${minutes}`;
 }
 
 /**
- * Converte l'orario testuale di un corso in minuti dall'inizio della giornata.
+ * Formatta l'intervallo di un corso nel formato HH:mm - HH:mm.
  *
- * @param {string} schedule - Intervallo nel formato HH:mm - HH:mm.
- * @returns {TimeInterval | null} Estremi dell'intervallo o null se non valido.
+ * @param {Course} course - Corso da visualizzare.
+ * @returns {string} Intervallo orario leggibile.
  */
-function parseSchedule(schedule: string): TimeInterval | null {
-  const match =
-    /^(2[0-3]|[01]\d):([0-5]\d)\s*-\s*(2[0-3]|[01]\d):([0-5]\d)$/.exec(
-      schedule,
-    );
-
-  if (!match) {
-    return null;
-  }
-
-  const start = Number(match[1]) * 60 + Number(match[2]);
-  const end = Number(match[3]) * 60 + Number(match[4]);
-
-  return end > start ? { start, end } : null;
+export function formatSchedule(course: Course): string {
+  return `${formatMinute(course.startMinute)} - ${formatMinute(course.endMinute)}`;
 }
 
 /**
@@ -35,17 +37,16 @@ function parseSchedule(schedule: string): TimeInterval | null {
  * @returns {boolean} True se gli intervalli si sovrappongono.
  */
 export function coursesOverlap(first: Course, second: Course): boolean {
-  if (first.day !== second.day) {
+  if (
+    first.day !== second.day ||
+    !isValidTimeRange(first) ||
+    !isValidTimeRange(second)
+  ) {
     return false;
   }
 
-  const firstInterval = parseSchedule(first.schedule);
-  const secondInterval = parseSchedule(second.schedule);
-
-  return Boolean(
-    firstInterval &&
-      secondInterval &&
-      firstInterval.start < secondInterval.end &&
-      secondInterval.start < firstInterval.end,
+  return (
+    first.startMinute < second.endMinute &&
+    second.startMinute < first.endMinute
   );
 }

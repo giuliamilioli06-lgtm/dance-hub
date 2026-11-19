@@ -1,4 +1,5 @@
 import type { Course, CourseReservation } from "../types";
+import { formatSchedule } from "../utils/schedule";
 
 interface AttendanceViewProps {
   courses: Course[];
@@ -42,7 +43,7 @@ function AttendanceView({
                 <p className="section-eyebrow">{course.category}</p>
                 <h3>{course.title}</h3>
                 <p>
-                  {course.day} · {course.schedule} · {course.room}
+                  {course.day} · {formatSchedule(course)} · {course.room}
                 </p>
               </div>
               <span className="attendance-card__count">

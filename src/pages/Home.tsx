@@ -16,15 +16,8 @@ import InstructorsSection from "../components/InstructorsSection";
 import ScheduleView from "../components/ScheduleView";
 import Welcome from "../components/Welcome";
 import { MOCK_COURSES } from "../data/mockCourses";
-import type {
-  Course,
-  CourseCategory,
-  CourseLevel,
-  CourseReservation,
-  Weekday,
-} from "../types";
-import { loadReservations, saveReservations } from "../utils/reservationStorage";
-import { coursesOverlap } from "../utils/schedule";
+import useCourseReservations from "../hooks/useCourseReservations";
+import type { CourseCategory, CourseLevel, Weekday } from "../types";
 
 const COURSE_CATEGORIES: CourseCategory[] = [
   "Hip-hop",
@@ -55,19 +48,6 @@ const WEEKDAYS: Weekday[] = [
  */
 function Home() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
-  const [storedReservations] = useState(loadReservations);
-  const [courses, setCourses] = useState<Course[]>(() =>
-    MOCK_COURSES.map((course) => ({
-      ...course,
-      enrolledCount: Math.min(
-        course.capacity,
-        course.enrolledCount +
-          storedReservations.reservations.filter(
-            (reservation) => reservation.courseId === course.id,
-          ).length,
-      ),
-    })),
-  );
   const [categoryFilter, setCategoryFilter] = useState<CourseCategory | "Tutti">(
     "Tutti",
   );
@@ -76,14 +56,16 @@ function Home() {
   const [instructorFilter, setInstructorFilter] = useState("Tutti");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
-  const [bookingNotice, setBookingNotice] = useState("");
   const [view, setView] = useState<"student" | "teacher">("student");
-  const [reservations, setReservations] = useState<CourseReservation[]>(
-    storedReservations.reservations,
-  );
-  const [storageError, setStorageError] = useState(
-    storedReservations.error ?? "",
-  );
+  const {
+    courses,
+    reservations,
+    storageError,
+    bookingNotice,
+    confirmBooking,
+    updateAttendance,
+    clearBookingNotice,
+  } = useCourseReservations(MOCK_COURSES);
 
   const filteredCourses = courses.filter(
     (course) =>
@@ -126,93 +108,21 @@ function Home() {
    * @returns {void} Aggiorna il corso attivo nel modale.
    */
   function openBookingModal(courseId: string) {
-    setBookingNotice("");
+    clearBookingNotice();
     setSelectedCourseId(courseId);
   }
 
-  /**
-   * Registra la prenotazione se il partecipante non ha un conflitto di orario.
-   *
-   * @param {string} courseId - Identificativo univoco del corso.
-   * @param {string} attendeeName - Nome del partecipante.
-   * @returns {string | null} Messaggio di errore o null se la prenotazione riesce.
-   */
-  function confirmBooking(courseId: string, attendeeName: string): string | null {
-    const displayName = attendeeName.trim();
+  function handleConfirmBooking(
+    courseId: string,
+    attendeeName: string,
+  ): string | null {
+    const error = confirmBooking(courseId, attendeeName);
 
-    if (!displayName) {
-      return "Inserisci il tuo nome prima di confermare la prenotazione.";
+    if (!error) {
+      setSelectedCourseId(null);
     }
 
-    const course = courses.find((item) => item.id === courseId);
-
-    if (!course || course.enrolledCount >= course.capacity) {
-      return "Questo corso è al completo.";
-    }
-
-    const normalizedName = displayName.toLocaleLowerCase();
-    const hasScheduleConflict = reservations.some((reservation) => {
-      if (reservation.attendeeName.trim().toLocaleLowerCase() !== normalizedName) {
-        return false;
-      }
-
-      const reservedCourse = courses.find(
-        (item) => item.id === reservation.courseId,
-      );
-
-      return reservedCourse ? coursesOverlap(course, reservedCourse) : false;
-    });
-
-    if (hasScheduleConflict) {
-      return "Hai già prenotato un corso che si sovrappone in questo giorno e orario.";
-    }
-
-    const nextReservations = [
-      ...reservations,
-      { courseId, attendeeName: displayName, isPresent: false },
-    ];
-    const saveError = saveReservations(nextReservations);
-
-    if (saveError) {
-      setStorageError(saveError);
-      return saveError;
-    }
-
-    setCourses((currentCourses) =>
-      currentCourses.map((item) =>
-        item.id === courseId && item.enrolledCount < item.capacity
-          ? { ...item, enrolledCount: item.enrolledCount + 1 }
-          : item,
-      ),
-    );
-    setReservations(nextReservations);
-    setStorageError("");
-    setBookingNotice(`Prenotazione confermata per ${displayName}.`);
-    setSelectedCourseId(null);
-    return null;
-  }
-
-  /**
-   * Aggiorna e salva lo stato di presenza di una prenotazione.
-   *
-   * @param {number} reservationIndex - Indice della prenotazione da aggiornare.
-   * @param {boolean} isPresent - Indica se il partecipante è presente.
-   * @returns {void} Salva la presenza nel browser o mostra un errore.
-   */
-  function updateAttendance(reservationIndex: number, isPresent: boolean) {
-    const nextReservations = reservations.map((reservation, index) =>
-      index === reservationIndex ? { ...reservation, isPresent } : reservation,
-    );
-    const saveError = saveReservations(nextReservations);
-
-    if (saveError) {
-      setStorageError(saveError);
-      return;
-    }
-
-    setReservations(nextReservations);
-    setStorageError("");
-    setBookingNotice("Presenza aggiornata.");
+    return error;
   }
 
   return (
@@ -481,7 +391,7 @@ function Home() {
       <BookingModal
         course={selectedCourse}
         onClose={() => setSelectedCourseId(null)}
-        onConfirm={confirmBooking}
+        onConfirm={handleConfirmBooking}
       />
     </div>
   );

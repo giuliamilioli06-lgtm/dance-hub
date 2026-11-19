@@ -9,7 +9,7 @@ import type { CourseCategory } from "../types";
 
 type CategoryFilter = CourseCategory | "Tutti";
 
-interface NavbarProps {
+interface HomeControlsProps {
   selectedCategory: CategoryFilter;
   onCategoryChange: (category: CategoryFilter) => void;
   view: "student" | "teacher";
@@ -39,7 +39,7 @@ function HomeControls({
   onViewChange,
   theme,
   onThemeToggle,
-}: NavbarProps) {
+}: HomeControlsProps) {
   return (
     <div className="home-controls">
       <div className="site-header__actions">

@@ -72,6 +72,12 @@ Per verificare i tipi e creare la build di produzione:
 npm run build
 ```
 
+Per eseguire i test di unità e del flusso di prenotazione:
+
+```sh
+npm test
+```
+
 Per visualizzare localmente la build:
 
 ```sh
@@ -81,6 +87,9 @@ npm run preview
 ## Struttura del progetto
 
 - `src/components/`: componenti riutilizzabili.
+- `src/hooks/useCourseReservations.ts`: stato e operazioni di prenotazione e presenze.
+- `src/styles/`: fogli di stile suddivisi per base catalogo, pagine e interazioni.
+- `src/App.css`: importa i fogli di stile mantenendo il loro ordine di cascata.
 - `src/components/PageLayout.tsx`: contenitore e footer delle pagine informative.
 - `src/pages/`: pagine associate alle route.
 - `src/pages/LandingHome.tsx`: pagina iniziale con menu di navigazione rapida.
@@ -103,6 +112,7 @@ npm run preview
 - `src/components/ScheduleView.tsx`: tabella degli appuntamenti settimanali.
 - `src/types/index.ts`: interfacce e tipi TypeScript condivisi, incluso `Course`.
 - `src/data/mockCourses.ts`: corsi di prova tipizzati con `Course`.
+- `src/utils/schedule.ts`: formattazione e confronto degli orari strutturati dei corsi.
 - `src/assets/`: immagini, icone e altri file multimediali.
 - `src/App.tsx`: configurazione delle route di React Router.
 - `src/main.tsx`: punto d'ingresso React.

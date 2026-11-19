@@ -1,4 +1,5 @@
 import type { Course } from "../types";
+import { formatSchedule } from "../utils/schedule";
 
 interface CourseCardProps {
   course: Course;
@@ -55,7 +56,7 @@ function CourseCard({ course, onBook }: CourseCardProps) {
           ↗
         </span>
         <span>
-          {course.day} · {course.schedule}
+          {course.day} · {formatSchedule(course)}
         </span>
       </div>
 

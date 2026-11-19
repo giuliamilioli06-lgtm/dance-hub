@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { MOCK_COURSES } from "../data/mockCourses";
+import { formatSchedule } from "../utils/schedule";
 
 const FEATURED_COURSES = MOCK_COURSES.slice(0, 3);
 
@@ -80,7 +81,7 @@ function FeaturedCourses() {
                   ↗
                 </span>
                 <span>
-                  {course.day} · {course.schedule}
+                  {course.day} · {formatSchedule(course)}
                 </span>
               </div>
 
