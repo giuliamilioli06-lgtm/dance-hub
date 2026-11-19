@@ -5,7 +5,7 @@
  * @created Novembre 2026
  */
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../App.css";
 import AttendanceView from "../components/AttendanceView";
@@ -46,8 +46,11 @@ const WEEKDAYS: Weekday[] = [
  *
  * @returns {import("react").ReactElement} L'interfaccia interattiva di Dance Hub.
  */
-function Home() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+interface HomeProps {
+  view: "student" | "teacher";
+}
+
+function Home({ view }: HomeProps) {
   const [categoryFilter, setCategoryFilter] = useState<CourseCategory | "Tutti">(
     "Tutti",
   );
@@ -56,7 +59,6 @@ function Home() {
   const [instructorFilter, setInstructorFilter] = useState("Tutti");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
-  const [view, setView] = useState<"student" | "teacher">("student");
   const {
     courses,
     reservations,
@@ -97,10 +99,6 @@ function Home() {
     instructorFilter,
   ].join("|");
 
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-  }, [theme]);
-
   /**
    * Apre il modulo per prenotare il corso selezionato.
    *
@@ -130,17 +128,6 @@ function Home() {
       <HomeControls
         selectedCategory={categoryFilter}
         onCategoryChange={setCategoryFilter}
-        view={view}
-        theme={theme}
-        onViewChange={(nextView) => {
-          setView(nextView);
-          setSelectedCourseId(null);
-        }}
-        onThemeToggle={() =>
-          setTheme((currentTheme) =>
-            currentTheme === "light" ? "dark" : "light",
-          )
-        }
       />
 
       <main>

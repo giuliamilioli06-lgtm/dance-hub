@@ -13,6 +13,13 @@ import {
   useNavigationType,
 } from "react-router-dom";
 
+interface NavbarProps {
+  view?: "student" | "teacher";
+  theme?: "light" | "dark";
+  onViewChange?: (view: "student" | "teacher") => void;
+  onThemeToggle?: () => void;
+}
+
 type RouteHistory = {
   keys: string[];
   index: number;
@@ -23,7 +30,12 @@ type RouteHistory = {
  *
  * @returns {import("react").ReactElement} La navigazione condivisa del sito.
  */
-function Navbar() {
+function Navbar({
+  view = "student",
+  theme = "light",
+  onViewChange = () => {},
+  onThemeToggle = () => {},
+}: NavbarProps) {
   const location = useLocation();
   const navigationType = useNavigationType();
   const navigate = useNavigate();
@@ -82,6 +94,34 @@ function Navbar() {
         <Link to="/contatti">Contatti</Link>
         <Link to="/lavora-con-noi">Lavora con noi</Link>
       </nav>
+
+      <div className="global-navbar__controls">
+        <div className="role-switch" aria-label="Seleziona la vista">
+          <button
+            type="button"
+            aria-pressed={view === "student"}
+            onClick={() => onViewChange("student")}
+          >
+            Allievi
+          </button>
+          <button
+            type="button"
+            aria-pressed={view === "teacher"}
+            onClick={() => onViewChange("teacher")}
+          >
+            Insegnante
+          </button>
+        </div>
+        <button
+          className="theme-toggle"
+          type="button"
+          aria-label={`Attiva il tema ${theme === "light" ? "scuro" : "chiaro"}`}
+          onClick={onThemeToggle}
+        >
+          <span aria-hidden="true">{theme === "light" ? "☾" : "☀"}</span>
+          <span>{theme === "light" ? "Dark" : "Light"}</span>
+        </button>
+      </div>
 
       <nav className="history-navigation" aria-label="Navigazione cronologica">
         <button
