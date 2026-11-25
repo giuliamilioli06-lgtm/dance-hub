@@ -21,7 +21,9 @@ organizzare le attività della community.
 ## Funzionalità presenti
 
 - Catalogo corsi filtrabile per disciplina e livello.
-- Otto lezioni di esempio, presentate con insegnanti, orari, sale e disponibilità.
+- Diciannove lezioni di esempio nelle discipline Classico, Modern, Contemporaneo,
+  Hip-hop, Heels e Musical, ciascuna disponibile a livello base, intermedio e
+  avanzato.
 - Profili dei tre insegnanti nella pagina corsi, prima del catalogo.
 - Sezione con tre corsi in evidenza, istruttori, orari e disponibilità.
 - Sezione con i tre punti di forza della scuola: insegnanti, sale e community.
@@ -36,7 +38,8 @@ organizzare le attività della community.
 - Viste Allievi e Insegnante, con registro e gestione delle presenze prenotate.
 - Badge dinamici per corsi quasi pieni e al completo.
 - Tema chiaro/scuro e animazioni di comparsa con supporto alla riduzione del movimento.
-- Identità visiva urban minimal: palette avorio e inchiostro con accenti lime.
+- Identità visiva dark/Y2K: palette nera e rosa, tipografia d'impatto e pattern
+  animalier.
 - Calendario settimanale con giorno, orario, insegnante e sala.
 - Layout responsive per desktop e dispositivi mobili.
 - Pagine dedicate a catalogo, storia, contatti e candidature, con pagina 404

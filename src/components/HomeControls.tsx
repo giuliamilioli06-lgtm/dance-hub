@@ -16,10 +16,12 @@ interface HomeControlsProps {
 
 const QUICK_FILTERS: CategoryFilter[] = [
   "Tutti",
+  "Classico",
+  "Modern",
+  "Contemporaneo",
   "Hip-hop",
-  "Contemporary",
-  "Master",
   "Heels",
+  "Musical",
 ];
 
 /**

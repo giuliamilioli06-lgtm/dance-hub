@@ -20,14 +20,16 @@ import useCourseReservations from "../hooks/useCourseReservations";
 import type { CourseCategory, CourseLevel, Weekday } from "../types";
 
 const COURSE_CATEGORIES: CourseCategory[] = [
+  "Classico",
+  "Modern",
+  "Contemporaneo",
   "Hip-hop",
-  "Contemporary",
-  "Master",
   "Heels",
+  "Musical",
 ];
 
 const COURSE_LEVELS: CourseLevel[] = [
-  "Principiante",
+  "Base",
   "Intermedio",
   "Avanzato",
 ];
@@ -192,7 +194,7 @@ function Home({ view }: HomeProps) {
                 type="search"
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.currentTarget.value)}
-                placeholder="Es. Contemporary, Giulia..."
+                placeholder="Es. Contemporaneo, Giulia..."
               />
             </label>
 

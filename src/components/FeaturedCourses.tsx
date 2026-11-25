@@ -1,8 +1,16 @@
 import { Link } from "react-router-dom";
 import { MOCK_COURSES } from "../data/mockCourses";
+import type { Course, CourseCategory } from "../types";
 import { formatSchedule } from "../utils/schedule";
 
-const FEATURED_COURSES = MOCK_COURSES.slice(0, 3);
+const FEATURED_CATEGORIES: CourseCategory[] = [
+  "Hip-hop",
+  "Contemporaneo",
+  "Heels",
+];
+const FEATURED_COURSES = FEATURED_CATEGORIES.map((category) =>
+  MOCK_COURSES.find((course) => course.category === category),
+).filter((course): course is Course => course !== undefined);
 
 /**
  * Mostra tre corsi in evidenza con insegnante, orario e posti disponibili.

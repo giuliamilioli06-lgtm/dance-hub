@@ -10,7 +10,7 @@ const courses: Course[] = [
     id: "course-1",
     title: "First course",
     category: "Hip-hop",
-    level: "Principiante",
+    level: "Base",
     instructor: "Ada",
     day: "Lunedì",
     startMinute: 18 * 60,
@@ -22,7 +22,7 @@ const courses: Course[] = [
   {
     id: "course-2",
     title: "Second course",
-    category: "Contemporary",
+    category: "Contemporaneo",
     level: "Intermedio",
     instructor: "Bea",
     day: "Lunedì",

@@ -7,7 +7,7 @@ function createCourse(overrides: Partial<Course> = {}): Course {
     id: "course-1",
     title: "Test course",
     category: "Hip-hop",
-    level: "Principiante",
+    level: "Base",
     instructor: "Test instructor",
     day: "Lunedì",
     startMinute: 18 * 60,

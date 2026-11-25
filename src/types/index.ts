@@ -1,6 +1,12 @@
-export type CourseCategory = "Hip-hop" | "Contemporary" | "Master" | "Heels";
+export type CourseCategory =
+  | "Classico"
+  | "Modern"
+  | "Contemporaneo"
+  | "Hip-hop"
+  | "Heels"
+  | "Musical";
 
-export type CourseLevel = "Principiante" | "Intermedio" | "Avanzato";
+export type CourseLevel = "Base" | "Intermedio" | "Avanzato";
 
 export type Weekday =
   | "Lunedì"

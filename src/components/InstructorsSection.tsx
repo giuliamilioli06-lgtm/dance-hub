@@ -2,7 +2,7 @@ const INSTRUCTORS = [
   {
     initials: "SA",
     name: "Sandro",
-    role: "Hip-hop e performance",
+    role: "Hip-hop, musical e performance",
     description:
       "Porta energia e precisione in sala, dalle basi del freestyle alle masterclass avanzate.",
     style: "sandro",
@@ -10,7 +10,7 @@ const INSTRUCTORS = [
   {
     initials: "GI",
     name: "Giulia",
-    role: "Contemporary e heels",
+    role: "Contemporaneo, modern e heels",
     description:
       "Ti accompagna a esplorare movimento, musicalità ed espressività con attenzione alla tecnica.",
     style: "giulia",
@@ -18,7 +18,7 @@ const INSTRUCTORS = [
   {
     initials: "MA",
     name: "Matteo",
-    role: "Hip-hop e foundations",
+    role: "Hip-hop e modern",
     description:
       "Costruisce solide basi di groove e coordinazione, con lezioni aperte a ogni livello.",
     style: "matteo",

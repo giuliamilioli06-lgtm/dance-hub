@@ -21,7 +21,7 @@ import NotFoundPage from "./pages/NotFoundPage";
  * @returns {import("react").ReactElement} Il router principale di Dance Hub.
  */
 function App() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
   const [view, setView] = useState<"student" | "teacher">("student");
 
   useEffect(() => {
